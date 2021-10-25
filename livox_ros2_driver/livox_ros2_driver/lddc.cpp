@@ -48,6 +48,7 @@ Lddc::Lddc(int format, int multi_topic, int data_src, int output_type,
       data_src_(data_src),
       output_type_(output_type),
       publish_frq_(frq),
+      ros_clock_(RCL_ROS_TIME),
       frame_id_(frame_id) {
   publish_period_ns_ = kNsPerSecond / publish_frq_;
   lds_ = nullptr;
@@ -177,7 +178,7 @@ uint32_t Lddc::PublishPointcloud2(LidarDataQueue *queue, uint32_t packet_num,
     }
     /** Use the first packet timestamp as pointcloud2 msg timestamp */
     if (!published_packet) {
-      cloud.header.stamp = rclcpp::Time(timestamp);
+      cloud.header.stamp = ros_clock_.now();
     }
     uint32_t single_point_num = storage_packet.point_num * echo_num;
 
@@ -284,7 +285,7 @@ uint32_t Lddc::PublishPointcloudData(LidarDataQueue *queue, uint32_t packet_num,
       }
     }
     if (!published_packet) {
-      cloud.header.stamp = timestamp / 1000.0;  // to pcl ros time stamp
+      cloud.header.stamp = ros_clock_.now().nanoseconds(); //timestamp / 1000.0;  // to pcl ros time stamp
     }
     uint32_t single_point_num = storage_packet.point_num * echo_num;
 
