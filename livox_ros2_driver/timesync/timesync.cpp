@@ -28,6 +28,7 @@
 #include <string.h>
 #include <thread>
 #include <chrono>
+#include <cstdio>
 #include <functional>
 
 namespace livox_ros {
