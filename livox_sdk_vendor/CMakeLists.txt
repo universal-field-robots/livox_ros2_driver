@@ -15,6 +15,7 @@ macro(build_livox_sdk)
   include(ExternalProject)
   externalproject_add(livox-sdk
     GIT_REPOSITORY https://github.com/universal-field-robots/Livox-SDK
+    GIT_TAG jazzy
     GIT_SHALLOW OFF
     TIMEOUT 60
     CMAKE_ARGS
