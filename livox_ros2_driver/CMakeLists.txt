@@ -3,6 +3,11 @@
 cmake_minimum_required(VERSION 3.5)
 project(livox_ros2_driver)
 
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
+find_package(FLANN QUIET) # FLANN will fail to find in Humble
+find_package(PCL REQUIRED) # Placing pcl here will fix CMP0144 warning
+unset(CMAKE_SUPPRESS_DEVELOPER_WARNINGS CACHE)
+
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
@@ -28,7 +33,6 @@ message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER_VERSION}")
 # find_package(<dependency> REQUIRED)
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
-find_package(PCL REQUIRED)
 find_package(livox_sdk REQUIRED)
 
 # check apr

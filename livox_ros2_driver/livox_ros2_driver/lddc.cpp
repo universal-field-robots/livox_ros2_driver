@@ -48,8 +48,8 @@ Lddc::Lddc(int format, int multi_topic, int data_src, int output_type,
       data_src_(data_src),
       output_type_(output_type),
       publish_frq_(frq),
-      ros_clock_(RCL_ROS_TIME),
-      frame_id_(frame_id) {
+      frame_id_(frame_id),
+      ros_clock_(RCL_ROS_TIME) {
   publish_period_ns_ = kNsPerSecond / publish_frq_;
   lds_ = nullptr;
 #if 0
@@ -602,10 +602,9 @@ std::shared_ptr<rclcpp::PublisherBase> Lddc::CreatePublisher(uint8_t msg_type,
           "%s publish use imu format", topic_name.c_str());
       return cur_node_->create_publisher<sensor_msgs::msg::Imu>(topic_name,
           queue_size);
-    } else {
-      std::shared_ptr<rclcpp::PublisherBase>null_publisher(nullptr);
-      return null_publisher;
     }
+    std::shared_ptr<rclcpp::PublisherBase>null_publisher(nullptr);
+    return null_publisher;
 }
 
 std::shared_ptr<rclcpp::PublisherBase> Lddc::GetCurrentPublisher(uint8_t handle) {
